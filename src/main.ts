@@ -16,6 +16,7 @@ import {
   initWallet,
 } from "./wallet.ts";
 import { flags, oakCors } from "./deps.ts";
+import { fromHex } from "./utils.ts";
 
 const app = new Application();
 const router = new Router();
@@ -85,7 +86,7 @@ router.post("/send-transaction", async (ctx) => {
   try {
     const address = body.address;
     const amount = body.amount;
-    const privateKey = new TextEncoder().encode(body.privateKey);
+    const privateKey = fromHex(body.privateKey);
 
     if (address === undefined || amount === undefined || privateKey === undefined) {
       throw new Error("invalid address, amount, or private key");
